@@ -3,14 +3,6 @@
  * @param {number} wait
  */
 export function throttle (func, wait) {
-    // 1. cooling or not
-    // 2. call posponed.
-
-    //     1. once called,
-    //       - if cooling, stash the call
-    //       - if not colling, run it  and set the timer
-    //     2. when time is up, reset cooling
-    //       - if stashed call, call it, go to 1
     let timer = null
     let stashed = null
 
@@ -36,4 +28,19 @@ export function throttle (func, wait) {
             startCooling()
         }
     }
+}
+
+
+export function throttle2(mainFunction, delay) {
+    let timerFlag = null; // Variable to keep track of the timer
+
+    // Returning a throttled version
+    return (...args) => {
+        if (timerFlag === null) { // If there is no timer currently running
+            mainFunction(...args); // Execute the main function
+            timerFlag = setTimeout(() => { // Set a timer to clear the timerFlag after the specified delay
+                timerFlag = null; // Clear the timerFlag to allow the main function to be executed again
+            }, delay);
+        }
+    };
 }
